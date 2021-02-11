@@ -1,0 +1,38 @@
+{
+  "name": "regoch-websocket-server",
+  "version": "1.0.0",
+  "title": "Regoch Websocket Server",
+  "description": "Ultra fast Websocket Server with builtin JS framework for creating real-time, complex apps.",
+  "author": "Sasa Mikodanic <smikodanic@gmail.com>",
+  "homepage": "http://www.regoch.org/websocket-server",
+  "license": "AGPL-3.0",
+  "keywords": [
+    "websocket",
+    "server",
+    "socket",
+    "ws",
+    "RFC 6455",
+    "real-time",
+    "realtime",
+    "tcp",
+    "websocket server",
+    "regoch"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "inst": "rm -rf node_modules && npm install",
+    "dev": "nodemon server"
+  },
+  "dependencies": {},
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smikodanic/regoch-websocket-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/smikodanic/regoch-websocket-server/issues"
+  }
+}
