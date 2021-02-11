@@ -1,4 +1,4 @@
-# websocket-ultra
+# regoch-websocket-server
 > Ultra fast Websocket Server and Client with builtin JS framework for creating real-time, complex apps.
 
 The library is made according to [RFC6455 Standard](https://www.iana.org/assignments/websocket/websocket.xml) for websocket version 13.
@@ -28,17 +28,23 @@ The library is made according to [RFC6455 Standard](https://www.iana.org/assignm
 
 
 **Router API**
+
 *Properties*
+
 ```routerOpts - {debug:boolean}``` - router options
+
 ```trx - {uri:string, body:any, uriParsed:{path:string, segments:number, queryString:string, queryObject:object}, routeParsed:{full:string, segments:number, base:string}, params:object, query:object}``` - transitional object ("uri" is the required property)
 
 *Methods*
+
 ```router.def('/', trx => console.log('ROOT'))``` - define route
+
 ```router.def('/shop/get.+/[0-9]+', rFun1, rFun2)``` - define route with regexp
 
 ```router.notfound(rFun1, rFun2)``` - define route functions when route is not found
 
 ```router.redirect(fromRoute, toRoute)``` - redirect from one rout to another route
+
 ```router.redirect('.+', '/')``` - redirect any route to root route
 
 ```router.do(rFun1, rFun2)``` - execute functions on every request
@@ -50,17 +56,7 @@ The library is made according to [RFC6455 Standard](https://www.iana.org/assignm
 **Server Development**
 ```bash
 ## start the test server
-$ nodemon tests/server/001internal.js
-```
-
-
-**Browser Client Development**
-```bash
-## start the test server
-$ nodemon tests/server/001internal.js
-
-## start the gulp
-$ npm run dev-client-browser
+$ nodemon examples/001internal.js
 ```
 
 
