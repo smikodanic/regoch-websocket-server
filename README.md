@@ -3,10 +3,12 @@
 
 The library is made for **NodeJS** according to [RFC6455 Standard](https://www.iana.org/assignments/websocket/websocket.xml) for websocket version 13.
 
+Very clean code with straightforward logic and no dependencies.
 
 ## Websocket Server Features
 - RFC6455, websocket v.13
 - NodeJS v10+
+- **no dependencies**
 - internal HTTP server
 - socket (client) authentication
 - limit total number of the connected clients
