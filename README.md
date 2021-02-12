@@ -16,6 +16,12 @@ The library is made for **NodeJS** according to [RFC6455 Standard](https://www.i
 - possible RxJS integration
 
 
+## Installation
+```
+npm install --save regoch-websocket-server
+```
+
+
 ## Website
 [www.regoch.org](http://www.regoch.org/websocket-server)
 
