@@ -1,18 +1,23 @@
 # regoch-websocket-server
-> Ultra fast Websocket Server and Client with builtin JS framework for creating real-time, complex apps.
+> Ultra fast Websocket Server with builtin JS framework for creating real-time, complex apps.
 
-The library is made according to [RFC6455 Standard](https://www.iana.org/assignments/websocket/websocket.xml) for websocket version 13.
+The library is made for **NodeJS** according to [RFC6455 Standard](https://www.iana.org/assignments/websocket/websocket.xml) for websocket version 13.
 
 
 ## Websocket Server Features
 - RFC6455, websocket v.13
+- NodeJS v10+
 - internal HTTP server
-- powered by RxJS
 - socket (client) authentication
 - limit total number of the connected clients
 - limit the number of connected clients per IP
 - rooms (grouped websocket clients)
 - built-in router
+- possible RxJS integration
+
+
+## Website
+[www.regoch.org](http://www.regoch.org/websocket-server)
 
 
 ### Router Features
@@ -64,4 +69,5 @@ $ nodemon examples/001internal.js
 
 ### Licence
 “Freely you received, freely you give”, Matthew 10:5-8
+
 Copyright (c) 2020 Saša Mikodanić licensed under [AGPL-3.0](./LICENSE) .

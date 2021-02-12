@@ -44,12 +44,14 @@ httpServer.on('error', (error) => {
 
 // init the websocket server
 const wsOpts = {
-  timeout: 60000,
+  timeout: 5*60*1000,
   maxConns: 5,
   maxIPConns: 3,
   storage: 'memory',
-  tightening: 700,
-  subprotocol: 'json'
+  subprotocol: 'jsonRWS',
+  tightening: 100,
+  version: 13,
+  debug: false
 };
 const rws = new RWS(wsOpts);
 rws.bootup(httpServer);

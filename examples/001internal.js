@@ -25,7 +25,7 @@ const wsOpts = {
   maxConns: 5,
   maxIPConns: 3,
   storage: 'memory',
-  subprotocol: 'rwsJson',
+  subprotocol: 'jsonRWS',
   tightening: 100,
   version: 13,
   debug: false
