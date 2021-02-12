@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const packageJson = require('../../package.json');
+const packageJson = require('../../../package.json');
 
 
 

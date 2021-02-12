@@ -2,7 +2,7 @@
  * An example with the external HTTP server injected into the .
  */
 const http = require('http');
-const { RWS } = require('../index.js');
+const { RWS } = require('../server/index.js');
 
 
 // create external HTTP server instance
@@ -54,4 +54,13 @@ const wsOpts = {
   debug: false
 };
 const rws = new RWS(wsOpts);
+rws.socketStorage.init(null);
 rws.bootup(httpServer);
+
+
+/*** socket stream ***/
+rws.on('connection', async socket => {
+  /* authenticate the socket */
+  const authkey = 'TRTmrt'; // can be fetched from the database, usually 'users' table
+  socket.extension.authenticate(authkey); // authenticate the socket: compare authkey with the sent authkey in the client request URL ws://localhost:3211/something?authkey=TRTmrt
+});

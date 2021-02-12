@@ -1,7 +1,7 @@
 /**
  * An example with the built-in HTTP server.
  */
-const { RWS, RWSHttpServer, Router, helper } = require('../index.js');
+const { RWS, RWSHttpServer, Router, helper } = require('../server/index.js');
 const router = new Router({debug: false});
 
 
