@@ -21,7 +21,7 @@
   "main": "./server/index.js",
   "scripts": {
     "inst": "rm -rf node_modules && npm install",
-    "dev": "nodemon server"
+    "dev": "nodemon examples/000dev.js"
   },
   "dependencies": {},
   "directories": {

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>001client</title>
+    <meta charset="utf-8">
+    <script src="001client.js"></script>
+  </head>
+  <body>
+    <h1>WebSocket Example</h1>
+    <p>Open your browser's developer tools to see client/server activity.</p>
+    <button onclick="connect()">Connect</button>
+    <button onclick="disconnect()">Disconnect</button>
+    <button onclick="sendMsg()">Send message</button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h3>ROOM TESTS</h3>
+    room: <input type="text" id="roomName" placeholder="room name">
+    <button onclick="roomSubscribe()">subscribe</button>
+    <button onclick="roomUnsubscribe()">unsubscribe</button>
+    <br>
+    <br>message: <input type="text" id="roomMessage" placeholder="room message"><button onclick="roomMessage()">send</button>
+  </body>
+</html>

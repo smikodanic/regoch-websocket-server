@@ -38,7 +38,7 @@ class DataTransfer {
       try {
         const msgSTR = this.dataParser.incoming(msgBUF); // convert incoming buffer message to string
         const msg = this.subprotocolLib.incoming(msgSTR); // convert the string message to format defined by the subprotocol
-        this.eventEmitter.emit('message', msg); // stream the message
+        this.eventEmitter.emit('message', msg, socket); // stream the message
         this.subprotocolLib.process(msg, socket, this, this.socketStorage, this.eventEmitter); // process message internally
 
       } catch(err) {
@@ -66,7 +66,7 @@ class DataTransfer {
   carryOut(msg, socket) {
     try {
       const msgSTR = this.subprotocolLib.outgoing(msg); // convert outgoing message to string
-      const msgBUFF = this.dataParser.outgoing(msgSTR); // convert string to buffer
+      const msgBUFF = this.dataParser.outgoing(msgSTR, 0); // convert string to buffer
       if (!!socket) { socket.write(msgBUFF, 'utf8'); } // send buffer message to the client
       else { throw new Error(`Socket is not defined ! msg: ${msgSTR}`); }
 

@@ -1,5 +1,6 @@
 /**
  * An example with the built-in HTTP server.
+ * Use it for the library developemnt.
  */
 const { RWS, RWSHttpServer, Router, helper } = require('../server/index.js');
 const router = new Router({debug: false});
@@ -25,7 +26,7 @@ const wsOpts = {
   maxConns: 5,
   maxIPConns: 3,
   storage: 'memory',
-  subprotocol: 'wsuJson',
+  subprotocol: 'jsonRWS',
   tightening: 100,
   version: 13,
   debug: true
@@ -63,8 +64,9 @@ rws.on('connection', async socket => {
 
 
 /*** all messages stream ***/
-rws.on('message', msg => {
+rws.on('message', (msg, socket) => {
   console.log('\nmessageStream::', msg);
+  rws.dataTransfer.sendOne(msg, socket); // return message back to the sender
 });
 
 
@@ -99,3 +101,4 @@ rws.on('route', msgObj => { // {id, from, to, cmd, payload: {uri, body}}
   });
 
 });
+

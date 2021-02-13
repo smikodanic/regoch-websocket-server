@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>002client</title>
+    <meta charset="utf-8">
+    <script src="002client.js"></script>
+  </head>
+  <body>
+    <h1>WebSocket Example 2</h1>
+    <p>Attempt to create websocket client for browser without using the WebSocket library (<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/WebSocket</a>)
+    <br>Not working due to FORBIDDEN HEADERS <a href="https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name" target="_blank">https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name</a> i.e.
+    browser doesn't allow to modify "Connection" HTTP header to "Upgrade".
+    <br>Possible solution can be with the Chrome Extensions or Firefox Addons.</p>
+    <button onclick="sendMsg()">Send message</button>
+  </body>
+</html>
