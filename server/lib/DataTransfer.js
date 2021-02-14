@@ -37,18 +37,41 @@ class DataTransfer {
     socket.on('data', async msgBUF => {
       try {
         const msgSTR = this.dataParser.incoming(msgBUF); // convert incoming buffer message to string
-        const msg = this.subprotocolLib.incoming(msgSTR); // convert the string message to format defined by the subprotocol
-        this.eventEmitter.emit('message', msg, socket); // stream the message
-        this.subprotocolLib.process(msg, socket, this, this.socketStorage, this.eventEmitter); // process message internally
+        this.eventEmitter.emit('messageSTR', msgSTR, socket); // stream the message
+
+        if (!/OPCODE 0x/.test(msgSTR)) {
+          const msg = this.subprotocolLib.incoming(msgSTR); // convert the string message to format defined by the subprotocol
+          this.eventEmitter.emit('message', msg, socket); // stream the message
+          this.subprotocolLib.process(msg, socket, this, this.socketStorage, this.eventEmitter); // process message internally
+        } else {
+          this.opcodes(msgSTR, socket);
+        }
 
       } catch(err) {
         const socketID = !!socket && !!socket.extension ? socket.extension.id : '';
-        console.log(`DataTransfer.carryIn:: socket_id: ${socketID}, ERROR: ${err.message}`.cliBoja('yellow'));
+        if (this.wsOpts.debug) { console.log(`DataTransfer.carryIn:: socketID: ${socketID}, WARNING: ${err.message}`.cliBoja('yellow')); }
         this.sendError(err, socket); // return error message back to the client
         await new Promise(resolve => setTimeout(resolve, 800));
         socket.destroy(); // disconnect client which sent bad message
       }
     });
+  }
+
+
+  /**
+   * Parse websocket operation codes according to https://tools.ietf.org/html/rfc6455#section-5.1
+   * @param {string} msgSTR - received message
+   * @param {Socket} socket
+   */
+  opcodes(msgSTR, socket) {
+    if (msgSTR === 'OPCODE 0x8 CLOSE') {
+      throw new Error('Opcode 0x8: Websocket connection is closed by the client.');
+    } else if (msgSTR === 'OPCODE 0x9 PING') {
+      const pongBUF = this.dataParser.ctrlPong();
+      socket.write(pongBUF);
+    } else if (msgSTR === 'OPCODE 0xA PONG') {
+      console.log('PONG received');
+    }
   }
 
 
@@ -66,8 +89,8 @@ class DataTransfer {
   carryOut(msg, socket) {
     try {
       const msgSTR = this.subprotocolLib.outgoing(msg); // convert outgoing message to string
-      const msgBUFF = this.dataParser.outgoing(msgSTR, 0); // convert string to buffer
-      if (!!socket) { socket.write(msgBUFF, 'utf8'); } // send buffer message to the client
+      const msgBUF = this.dataParser.outgoing(msgSTR, 0); // convert string to buffer
+      if (!!socket) { socket.write(msgBUF); } // send buffer message to the client
       else { throw new Error(`Socket is not defined ! msg: ${msgSTR}`); }
 
     } catch(err) {

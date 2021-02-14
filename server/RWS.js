@@ -115,10 +115,7 @@ class RWS {
         socket.extension.addSocket(); // add socket in the storage (memory, file, mongodb, redis)
         dataTransfer.eventEmitter.emit('connection', socket); // push the socket into the eventEmitter
         await helper.sleep(tightening);
-
         if (!socket.extension.authenticated) { throw new Error(`Socket is not authenticated! Client IP: ${ip} , userAgent: ${userAgent}`); } // do not execute further code if the socket is not autheticated
-        dataTransfer.sendID(socket); // send socket id back to the client
-        await helper.sleep(tightening);
 
 
         /********** DATA TRANSFER ***********/

@@ -64,9 +64,13 @@ rws.on('connection', async socket => {
 
 
 /*** all messages stream ***/
+rws.on('messageSTR', (msg, socket) => {
+  console.log('\nmessageSTR::', msg);
+});
+
 rws.on('message', (msg, socket) => {
-  console.log('\nmessageStream::', msg);
-  rws.dataTransfer.sendOne(msg, socket); // return message back to the sender
+  console.log('\nmessage::', msg);
+  // rws.dataTransfer.sendOne(msg, socket); // return message back to the sender
 });
 
 
