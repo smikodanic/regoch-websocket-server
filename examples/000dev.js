@@ -29,7 +29,7 @@ const wsOpts = {
   subprotocol: 'jsonRWS',
   tightening: 100,
   version: 13,
-  debug: true
+  debug: false
 };
 const rws = new RWS(wsOpts);
 rws.socketStorage.init(null);

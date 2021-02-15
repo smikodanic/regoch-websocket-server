@@ -65,12 +65,14 @@ class DataTransfer {
    */
   opcodes(msgSTR, socket) {
     if (msgSTR === 'OPCODE 0x8 CLOSE') {
-      throw new Error('Opcode 0x8: Websocket connection is closed by the client.');
+      console.log('Opcode 0x8: Client closed websocket connection'.cliBoja('yellow'));
+      socket.destroy();
     } else if (msgSTR === 'OPCODE 0x9 PING') {
+      if (this.wsOpts.debug) { console.log('Opcode 0x9: PING received'.cliBoja('yellow')); }
       const pongBUF = this.dataParser.ctrlPong();
       socket.write(pongBUF);
     } else if (msgSTR === 'OPCODE 0xA PONG') {
-      console.log('PONG received');
+      if (this.wsOpts.debug) { console.log('Opcode 0xA: PONG received'.cliBoja('yellow')); }
     }
   }
 
