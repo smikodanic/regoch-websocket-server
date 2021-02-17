@@ -37,15 +37,16 @@ class DataTransfer {
     socket.on('data', async msgBUF => {
       try {
         const msgSTR = this.dataParser.incoming(msgBUF); // convert incoming buffer message to string
-        this.eventEmitter.emit('messageSTR', msgSTR, socket); // stream the message
 
+        let msg;
         if (!/OPCODE 0x/.test(msgSTR)) {
-          const msg = this.subprotocolLib.incoming(msgSTR); // convert the string message to format defined by the subprotocol
-          this.eventEmitter.emit('message', msg, socket); // stream the message
+          msg = this.subprotocolLib.incoming(msgSTR); // convert the string message to format defined by the subprotocol
           this.subprotocolLib.process(msg, socket, this, this.socketStorage, this.eventEmitter); // process message internally
         } else {
           this.opcodes(msgSTR, socket);
         }
+
+        this.eventEmitter.emit('message', msg, msgSTR, msgBUF, socket); // stream the message
 
       } catch(err) {
         const socketID = !!socket && !!socket.extension ? socket.extension.id : '';
@@ -92,8 +93,8 @@ class DataTransfer {
     try {
       const msgSTR = this.subprotocolLib.outgoing(msg); // convert outgoing message to string
       const msgBUF = this.dataParser.outgoing(msgSTR, 0); // convert string to buffer
-      if (!!socket) { socket.write(msgBUF); } // send buffer message to the client
-      else { throw new Error(`Socket is not defined ! msg: ${msgSTR}`); }
+      if (!!socket && socket.writable) { socket.write(msgBUF); } // send buffer message to the client
+      else { throw new Error(`Socket is not defined or not wriatable ! msg: ${msgSTR}`); }
 
     } catch(err) {
       const socketID = !!socket && !!socket.extension ? socket.extension.id : '';
@@ -172,6 +173,7 @@ class DataTransfer {
       }
     }
   }
+
 
 
   /**
