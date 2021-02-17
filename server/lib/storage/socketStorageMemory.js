@@ -63,7 +63,7 @@ class SocketStorageMemory {
   remove(socket) {
     socket.destroy();
     global.rws.sockets = global.rws.sockets.filter(sock => sock.extension.id !== socket.extension.id);
-    this.roomExit(socket);
+    this.roomExitAll(socket);
   }
 
 
@@ -213,12 +213,10 @@ class SocketStorageMemory {
     const socket_id = socket.extension.id;
     let i = 0;
     for (const room of global.rws.rooms) {
-      console.log('room::', room.name);
       room.socketIds = room.socketIds.filter(sock_id => sock_id !== socket_id);
       i++;
     }
     this._roomCorrector();
-    console.log(global.rws.rooms);
   }
 
 

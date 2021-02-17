@@ -65,8 +65,8 @@ class DataTransfer {
    */
   opcodes(msgSTR, socket) {
     if (msgSTR === 'OPCODE 0x8 CLOSE') {
-      console.log('Opcode 0x8: Client closed websocket connection'.cliBoja('yellow'));
-      socket.destroy();
+      console.log('Opcode 0x8: Client closed the websocket connection'.cliBoja('yellow'));
+      socket.extension.removeSocket();
     } else if (msgSTR === 'OPCODE 0x9 PING') {
       if (this.wsOpts.debug) { console.log('Opcode 0x9: PING received'.cliBoja('yellow')); }
       const pongBUF = this.dataParser.ctrlPong();
