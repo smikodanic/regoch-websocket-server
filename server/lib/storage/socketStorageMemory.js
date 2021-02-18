@@ -134,12 +134,8 @@ class SocketStorageMemory {
    * @returns {void}
    */
   async setNick(socket, nickname) {
-    // if nickname already exist add the extension of 5 digits extracted from socketID
-    const socketFound = await global.rws.sockets.find(socket => this._searchLogic(socket, {nickname}));
-    if (!!socketFound) {
-      const ext = socket.extension.id.toString().slice(13, 18);
-      nickname += ext;
-    }
+    const socketFound = await global.rws.sockets.find(socket => this._searchLogic(socket, {nickname})); // check if nickname already exists
+    if (!!socketFound) { throw new Error(`The nickname "${nickname}" already exists.`); }
     socket.extension.nickname = nickname;
   }
 
@@ -263,6 +259,7 @@ class SocketStorageMemory {
    * @returns {boolean}
    */
   _searchLogic(socket, query) {
+    console.log(query);
     const props = Object.keys(query);
     let tf = true;
     for (const prop of props) {

@@ -2,7 +2,7 @@
  * An example with the built-in HTTP server.
  * Use it for the library developemnt.
  */
-const { RWS, RWSHttpServer, Router, helper } = require('../server/index.js');
+const { RWS, RWSHttpServer, Router } = require('../server/index.js');
 const router = new Router({debug: false});
 
 
@@ -65,10 +65,10 @@ rws.on('connection', async socket => {
 
 /*** message stream ***/
 rws.on('message', (msg, msgSTR, msgBUF, socket) => {
-  console.log('\nmessage SUBPROTOCOL::', msg); // after subprotocol
+  // console.log('\nmessage SUBPROTOCOL::', msg); // after subprotocol
   console.log('\nmessage STRING::', msgSTR); // after DataParser
-  console.log('\nmessage BUFFER::', msgBUF); // incoming buffer
-  console.log('\nsocketID', socket.extension.id);
+  // console.log('\nmessage BUFFER::', msgBUF); // incoming buffer
+  // console.log('\nsocketID', socket.extension.id);
   // rws.dataTransfer.sendOne(msg, socket); // return message back to the sender
 });
 

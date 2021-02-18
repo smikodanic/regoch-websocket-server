@@ -125,8 +125,13 @@ class JsonRWS {
     else if (cmd === 'socket/nick') {
       // {id: 210129163129492000, from: 210129163129492111, to: 0, cmd: 'socket/nick', payload: 'Peter Pan'}
       const nickname = msg.payload;
-      await socketStorage.setNick(socket, nickname);
-      msg.payload = socket.extension.nickname;
+      try {
+        await socketStorage.setNick(socket, nickname);
+        msg.payload = socket.extension.nickname;
+      } catch (err) {
+        msg.cmd = 'error';
+        msg.payload = err.message;
+      }
       socket.extension.sendSelf(msg); }
 
 
