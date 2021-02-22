@@ -259,7 +259,6 @@ class SocketStorageMemory {
    * @returns {boolean}
    */
   _searchLogic(socket, query) {
-    console.log(query);
     const props = Object.keys(query);
     let tf = true;
     for (const prop of props) {

@@ -165,7 +165,7 @@ class JsonRWS {
     /*** route command ***/
     else if (cmd === 'route') {
       // {id: 210129163129492000, from: 210129163129492111, to: 0, cmd: 'route', payload: {uri: 'shop/login', body: {username:'mark', password:'thG5$#w'}}}
-      eventEmitter.emit('route', msg, socket); }
+      eventEmitter.emit('route', msg, socket, dataTransfer, socketStorage, eventEmitter); }
 
 
     /*** info commands ***/

@@ -94,7 +94,7 @@ class DataTransfer {
       const msgSTR = this.subprotocolLib.outgoing(msg); // convert outgoing message to string
       const msgBUF = this.dataParser.outgoing(msgSTR, 0); // convert string to buffer
       if (!!socket && socket.writable) { socket.write(msgBUF); } // send buffer message to the client
-      else { throw new Error(`Socket is not defined or not wriatable ! msg: ${msgSTR}`); }
+      else { throw new Error(`Socket is not defined or not writable ! msg: ${msgSTR}`); }
 
     } catch(err) {
       const socketID = !!socket && !!socket.extension ? socket.extension.id : '';
