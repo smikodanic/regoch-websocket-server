@@ -1,6 +1,6 @@
 {
   "name": "regoch-websocket-server",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "title": "Regoch Websocket Server",
   "description": "Ultra fast Websocket Server with builtin JS framework for creating real-time, complex apps.",
   "author": "Sasa Mikodanic <smikodanic@gmail.com>",
