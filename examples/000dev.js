@@ -76,7 +76,7 @@ rws.on('message', (msg, msgSTR, msgBUF, socket) => {
 
 
 /*** route stream ***/
-rws.on('route', (msgObj, socket) => { // msgObj:: {id, from, to, cmd, payload: {uri, body}}
+rws.on('route', (msgObj, socket, dataTransfer, socketStorage, eventEmitter) => { // msgObj:: {id, from, to, cmd, payload: {uri, body}}
   console.log('routeStream::', msgObj);
   const payload = msgObj.payload;
 
