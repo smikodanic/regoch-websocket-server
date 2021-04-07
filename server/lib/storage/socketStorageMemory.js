@@ -70,7 +70,7 @@ class SocketStorageMemory {
   /**
    * Get array of all socket IDs. Because socket object is very big and hard to debug.
    * @param {string} sort - asc | desc -- sort IDs ascending or descending
-   * @returns {string[]} - array of numbers
+   * @returns {number[]} - array of numbers
    */
   async listIDs(sort) {
     const socketIds = global.rws.sockets.map(socket => socket.extension.id); // extract socket ids
@@ -241,7 +241,7 @@ class SocketStorageMemory {
   /**
    * Find a room by room name.
    * @param {string} roomName
-   * @returns {{name:string, socketIds:number[]}[]}
+   * @returns {{name:string, socketIds:number[]}}
    */
   async roomFindOne(roomName) {
     const room = global.rws.rooms.find(room => room.name === roomName);

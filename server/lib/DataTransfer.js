@@ -163,8 +163,8 @@ class DataTransfer {
    * @param {string} roomName - a room name (group of clients)
    * @returns {void}
    */
-  async sendRoom(msg, socket, roomName) {
-    const socketSenderID = +socket.extension.id; // sender socket id
+  async sendRoom(msg, socketSender, roomName) {
+    const socketSenderID = +socketSender.extension.id; // sender socket id
     const room = await this.socketStorage.roomFindOne(roomName); // {name:string, socketIds:number[]}
     if (!!room) {
       const sockets = await this.socketStorage.find({id: {$in: room.socketIds}});

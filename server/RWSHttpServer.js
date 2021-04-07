@@ -3,7 +3,7 @@ const http = require('http');
 
 /**
  * Internal HTTP Server which will run in case that external is not injected.
- * - port:number - HTTP Serer port number
+ * - port:number - HTTP Server port number
  * - timeout:number - ms of inactivity after ws will be closed. If 0 then the ws will never close. Default is 5 minutes.
  */
 class RWSHttpServer {

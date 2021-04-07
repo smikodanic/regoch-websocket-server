@@ -1,7 +1,7 @@
 # regoch-websocket-server
 > Ultra fast Websocket Server with builtin JS framework for creating real-time, complex apps.
 
-The library is made for **NodeJS** according to [RFC6455 Standard](https://www.iana.org/assignments/websocket/websocket.xml) for websocket version 13.
+The library is made for **NodeJS** according to [RFC6455 Standard](https://tools.ietf.org/html/rfc6455) for websocket version 13.
 
 Very clean code with straightforward logic and no dependencies.
 
