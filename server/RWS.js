@@ -140,8 +140,8 @@ class RWS {
    */
   onRequest() {
     this.server.on('request', (req, res) => {
-      console.log('url::', req.url.cliBoja('yellow', 'italic'));
-      console.log('headers::', JSON.stringify(req.headers, null, 2).cliBoja('yellow', 'italic'));
+      // console.log('url::', req.url.cliBoja('yellow', 'italic'));
+      // console.log('headers::', JSON.stringify(req.headers, null, 2).cliBoja('yellow', 'italic'));
       // res.writeHead(200, { 'Content-Type': 'text/json'});
       // res.write({success: false, msg: 'Bad request!'});
       // res.end();

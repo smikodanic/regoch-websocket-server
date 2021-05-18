@@ -1,7 +1,7 @@
 class Helper {
 
   /**
-   * Create unique id. It's combination of wsOpts and random number 'r'
+   * Create unique id. It's combination of timestamp and random number 'r'
    * in format: YYMMDDHHmmssSSSrrr ---> YY year, MM month, DD day, HH hour, mm min, ss sec, SSS ms, rrr 3 random digits
    * 18 digits in total, for example: 210129163129492100
    * @returns {number}
