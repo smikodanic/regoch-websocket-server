@@ -109,7 +109,7 @@ class DataParser {
 
     if (this.debug) {
       console.log('\n\n--------------------- DataParser.incoming ------------------------');
-      console.log('msgBUFF:', msgBUF.length + ' bytes -- ', msgBUF);
+      console.log('msgBUFF:', msgBUF.length + ' bytes -- ', msgBUF.toString('hex').match(/../g).join(' '));
       console.log();
       console.log(`byte_1::: ${this.toBinStr(byte_1)} ---> fin:${fin} rsv1:${rsv1} rsv2:${rsv2} rsv3:${rsv3} opcode:0x${this.toHexStr(opcode)}`);
       console.log(`byte_2::: ${this.toBinStr(byte_2)} ---> mask:${mask} plen_byte2:0b${this.toBinStr(plen_byte2)} -- 0x${this.toHexStr(plen_byte2)} -- ${plen_byte2}`);

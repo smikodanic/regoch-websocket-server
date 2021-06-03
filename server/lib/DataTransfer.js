@@ -36,6 +36,7 @@ class DataTransfer {
   carryIn(socket) {
     socket.on('data', async msgBUF => {
       try {
+        // console.log('msgBUF::', msgBUF.length, msgBUF.toString('hex').match(/../g).join(' '));
         const msgSTR = this.dataParser.incoming(msgBUF); // convert incoming buffer message to string
 
         let msg;
@@ -50,10 +51,10 @@ class DataTransfer {
 
       } catch(err) {
         const socketID = !!socket && !!socket.extension ? socket.extension.id : '';
-        if (this.wsOpts.debug) { console.log(`DataTransfer.carryIn:: socketID: ${socketID}, WARNING: ${err.message}`.cliBoja('yellow')); }
-        this.sendError(err, socket); // return error message back to the client
-        await new Promise(resolve => setTimeout(resolve, 800));
-        socket.destroy(); // disconnect client which sent bad message
+        console.log(`DataTransfer.carryIn:: socketID: ${socketID}, WARNING: ${err.message}`.cliBoja('yellow'));
+        // this.sendError(err, socket); // return error message back to the client
+        // await new Promise(resolve => setTimeout(resolve, 800));
+        // socket.destroy(); // disconnect client which sent bad message
       }
     });
   }
@@ -97,8 +98,8 @@ class DataTransfer {
       else { throw new Error(`Socket is not defined or not writable ! msg: ${msgSTR}`); }
 
     } catch(err) {
-      const socketID = !!socket && !!socket.extension ? socket.extension.id : '';
-      console.log(`DataTransfer.carryOut:: socket_id: ${socketID}, ERROR: ${err.message}`.cliBoja('yellow'));
+      const socketID = !!socket && !!socket.extension ? socket.extension.id : 'BAD SOCKET';
+      console.log(`DataTransfer.carryOut:: socketID: ${socketID}, WARNING: ${err.message}`.cliBoja('yellow'));
       // socket.destroy();
     }
   }
