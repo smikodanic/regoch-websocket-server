@@ -261,19 +261,30 @@ class SocketStorageMemory {
   _searchLogic(socket, query) {
     const props = Object.keys(query);
     let tf = true;
+
     for (const prop of props) {
-      const $ne = query[prop].$ne;
-      const $regex = query[prop].$regex;
-      const $in = query[prop].$in;
-      if (!!$ne) {
+      const $eq = query[prop].$eq; // {name: {$eq: 'Johnny'}}
+      const $ne = query[prop].$ne; // {name: {$ne: 'Johnny'}}
+      const $regex = query[prop].$regex; // {name: {$regex: /Joh/i}}
+      const $in = query[prop].$in; // {name: {$in: ['John', 'Mark']}}
+      const $exists = query[prop].$exists; // {user_id: {$exists: false}}
+
+      if (!!$eq) {
+        tf = tf && socket.extension[prop] === query[prop].$ne;
+      } else if (!!$ne) {
         tf = tf && socket.extension[prop] !== query[prop].$ne;
-      } else if (!!$regex){
+      } else if (!!$regex) {
         tf = tf && $regex.test(socket.extension[prop]);
-      } else if (!!$in){
+      } else if (!!$in) {
         tf = tf && query[prop].$in.indexOf(socket.extension[prop]) !== -1;
+      } else if (Object.keys(query[prop]).indexOf('$exists') !== -1) {
+        const extProps = Object.keys(socket.extension);
+        if ($exists === true) { tf = tf && extProps.indexOf(prop) !== -1; }
+        else if ($exists === false) { tf = tf && extProps.indexOf(prop) === -1; }
       } else {
         tf = tf && socket.extension[prop] === query[prop];
       }
+
     }
     return tf;
   }
