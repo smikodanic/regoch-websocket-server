@@ -11,18 +11,22 @@ class SocketExtension {
    * @param {Socket} socket - net socket https://nodejs.org/api/net.html#net_class_net_socket
    * @param {object} wsOpts - websocket options {timeout, max_connection}
    * @param {object} socketStorage - socketStorage from /storage/ folder
+   * @param {object} dataTransfer - DataTransfer.js instance
    * @param {string} url - /something?authkey=TRTmrt
    * @param {string} userAgent - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36
    * @param {string} origin - 'Origin' request header
+   * @param {string} ip - external socket IP address - 58.123.33.22
    */
-  constructor (socket, wsOpts, socketStorage, url, userAgent, origin, dataTransfer) {
+  constructor (socket, wsOpts, socketStorage, dataTransfer, url, userAgent, origin, ip, port) {
     this.socket = socket;
     this.wsOpts = wsOpts;
     this.socketStorage = socketStorage;
+    this.dataTransfer = dataTransfer;
     this.url = url;
     this.userAgent = userAgent;
     this.origin = origin;
-    this.dataTransfer = dataTransfer;
+    this.ip = ip;
+    this.port = port;
 
     this.extension(); // add "extension" property
     this.changeTimeout(); // change socket timeout
@@ -41,7 +45,7 @@ class SocketExtension {
     // properties
     this.socket.extension.id = helper.generateID(); // 201129131151783230
     this.socket.extension.nick = ''; // custom nick name
-    this.socket.extension.ip = this.socket.remoteAddress; // client IP
+    this.socket.extension.ip = this.ip; // client IP
     this.socket.extension.port = +this.socket.remotePort; // client port
     this.socket.extension.time = (new Date()).toISOString(); // 2020-11-15T14:41:48.479Z    (GMT - Greenwich Meridian Time)
     this.socket.extension.wsOpts = this.wsOpts; // {timeout, maxConns, maxIPconns, ...}

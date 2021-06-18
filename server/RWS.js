@@ -74,9 +74,11 @@ class RWS {
       /*** input data ***/
       const socketStorage = this.socketStorage;
       const dataTransfer = this.dataTransfer;
-      const ip = socket.remoteAddress; // ::1 , 58.123.33.22
       const url = req.url; // /something?username=majk in ws://localhost:3211/something?username=majk
 
+      // const ip = socket.remoteAddress; // ::ffff:127.0.0.1
+      const ip = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || socket.remoteAddress.replace('::ffff:', ''); // 58.123.33.22 -- nginx -> proxy_set_header  X-Real-IP $remote_addr;
+      const port = req.headers['x-real-port'] || req.socket.remotePort; // 34080 -- nginx --> proxy_set_header  X-Real-Port $remote_port
       const origin = req.headers['origin'];
       const upgrade = req.headers['upgrade']; // websocket
       const wsKey = req.headers['sec-websocket-key']; // 7PcnXRWw6+pnRVpPDG3IzA==
@@ -102,7 +104,7 @@ class RWS {
 
 
         /********** SOCKET EXTENSION ***********/
-        new SocketExtension(socket, wsOpts, socketStorage, url, userAgent, origin, dataTransfer); // creates property socket.extension
+        new SocketExtension(socket, wsOpts, socketStorage, dataTransfer, url, userAgent, origin, ip, port); // creates property socket.extension
         await helper.sleep(tightening);
 
 
