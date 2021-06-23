@@ -15,6 +15,7 @@ class RWS {
     if (!wsOpts) {
       wsOpts = {
         timeout: 5*60*1000, // close socket after ms inactivity. If 0 never close. Default: 5min.
+        allowHalfOpen: false, // if false close socket if it's readyState is writeOnly or readOnly. When NginX timeout socket on the client side [Client -X- NginX --- WSServer(NodeJS)]
         maxConns: 10000, // limit connections to the server
         maxIPConns: 1, // limit connections from the same IP address. If 0 infinite
         storage: 'memory', // socket storage type
@@ -25,6 +26,7 @@ class RWS {
       };
     } else {
       if (!wsOpts.timeout) { wsOpts.timeout = 5*60*1000; }
+      if (!wsOpts.allowHalfOpen) { wsOpts.allowHalfOpen = false; }
       if (wsOpts.maxConns < wsOpts.maxIPConns) { throw new Error('Option "maxConns" must be greater then "maxIPConns".'); }
       if (wsOpts.maxConns <= 0 || wsOpts.maxIPConns <= 0) { throw new Error('Option "maxConns" && "maxIPConns" must be greater then 0.'); }
       if (!wsOpts.storage) { throw new Error('Option "storage" is not defined. ("storage": "memory")'); }
@@ -70,6 +72,9 @@ class RWS {
   onUpgrade() {
     this.server.on('upgrade', async (req, socket) => {
       // console.log('isSame:::', req.socket === socket); // true
+
+      // if allowHalfOpen=false close the socket when readyState becomes writeOnly or readOnly ("close" event will be emitted and socket will be removed from socketStorage -> socketExtension.js)
+      socket.allowHalfOpen = this.wsOpts.allowHalfOpen;
 
       /*** input data ***/
       const socketStorage = this.socketStorage;
@@ -180,8 +185,6 @@ class RWS {
   on(eventName, listener) {
     return this.dataTransfer.eventEmitter.on(eventName, listener);
   }
-
-
 
 
 }

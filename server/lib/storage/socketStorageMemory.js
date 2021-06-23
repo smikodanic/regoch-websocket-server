@@ -140,6 +140,31 @@ class SocketStorageMemory {
   }
 
 
+  /**
+   * Purge disconnected sockets periodically.
+   * Check if socket is valid for receiving and sending messages.
+   * Check the readyState for every socket periodically every "sec" seconds. If the socket is readOnly or writeOnly remove it.
+   * https://nodejs.org/api/net.html#net_socket_readystate
+   * readyState: opening, open, readOnly, writeOnly
+   * @param {number} sec - purge after sec soceonds, if sec=0 then purge once
+   */
+  async purge(sec) {
+    const sockets = await this.getAll();
+
+    for (const socket of sockets) {
+      if (socket.readyState === 'readOnly' || socket.readyState === 'writeOnly') {
+        console.log(`Socket "${socket.extension.id}" removed, readyState: "${socket.readyState}"`);
+        socket.extension.removeSocket();
+      }
+    }
+
+    if (!!sec) {
+      await new Promise(r => setTimeout(r, sec * 1000));
+      this.purge(sec);
+    }
+  }
+
+
 
 
   /************** ROOMS *****************/
