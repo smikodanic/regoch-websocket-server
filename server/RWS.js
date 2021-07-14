@@ -88,7 +88,7 @@ class RWS {
       const upgrade = req.headers['upgrade']; // websocket
       const wsKey = req.headers['sec-websocket-key']; // 7PcnXRWw6+pnRVpPDG3IzA==
       const wsVersion = +req.headers['sec-websocket-version']; // 13
-      const wsProtocols = req.headers['sec-websocket-protocol']; // ['jsonRWS', 'json', 'xml'] -> subprotocols sent by the client (new WebSocket(wsURL, subprotocols))
+      const wsProtocols = req.headers['sec-websocket-protocol']; // raw,jsonRWS -> subprotocols sent by the client (new WebSocket(wsURL, subprotocols))
       const wsExtrension = req.headers['sec-websocket-extension']; // permessage-deflate; client_max_window_bits
       const userAgent = req.headers['user-agent']; // Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36
 
@@ -103,7 +103,7 @@ class RWS {
         if (upgrade !== 'websocket') { throw new Error('HTTP/1.1 400 Bad Request. The "Upgrade: websocket" HTTP header is not sent from the client.'); }
         if (!wsKey) { throw new Error('Client didn\'t send "Sec-Websocket-Key" header.'); }
         if (wsVersion !== version) { throw new Error(`Websocket version ${wsVersion} is not supported. Valid version: ${version}.`); }
-        if (!!wsProtocols && wsProtocols.indexOf(subprotocol) === -1) { throw new Error(`None of the requested subprotocols "${wsProtocols}" is supported by the server.`); }
+        if (!!wsProtocols && !wsProtocols.includes(subprotocol)) { throw new Error(`None of the requested subprotocols "${wsProtocols}" is supported by the server. Supported subprotocol is "${subprotocol}".`); }
         this.limitConnections(socketStorage, ip);
         await helper.sleep(tightening);
 
