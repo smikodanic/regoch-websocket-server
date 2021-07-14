@@ -40,6 +40,10 @@ $ nodemon examples/001internal.js
 ```
 
 
+## TCPDUMP
+Use *tcpdump* command to debug the messages sent from the server to the client.
+For example ```sudo tcpdump -i any port 8000 -X -s0``` where 8000 is the server port.
+
 
 
 ### Licence
