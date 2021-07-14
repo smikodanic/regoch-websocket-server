@@ -103,7 +103,7 @@ class RWS {
         if (upgrade !== 'websocket') { throw new Error('HTTP/1.1 400 Bad Request. The "Upgrade: websocket" HTTP header is not sent from the client.'); }
         if (!wsKey) { throw new Error('Client didn\'t send "Sec-Websocket-Key" header.'); }
         if (wsVersion !== version) { throw new Error(`Websocket version ${wsVersion} is not supported. Valid version: ${version}.`); }
-        if (!!wsProtocols && !wsProtocols.includes(subprotocol)) { throw new Error(`None of the requested subprotocols "${wsProtocols}" is supported by the server. Supported subprotocol is "${subprotocol}".`); }
+        if (!!wsProtocols && !wsProtocols.includes(subprotocol)) { throw new Error(`Client requested "${wsProtocols}" subprotocols but server supports "${subprotocol}".`); }
         this.limitConnections(socketStorage, ip);
         await helper.sleep(tightening);
 
