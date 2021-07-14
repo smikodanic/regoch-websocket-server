@@ -34,20 +34,34 @@ class DataTransfer {
    * @returns {void}
    */
   carryIn(socket) {
-    socket.on('data', async msgBUF => {
+    let msgBUFarr = [];
+
+    socket.on('data', async msgBUFchunk => {
       try {
-        // console.log('msgBUF::', msgBUF.length, msgBUF.toString('hex').match(/../g).join(' '));
-        const msgSTR = this.dataParser.incoming(msgBUF); // convert incoming buffer message to string
+        // console.log('msgBUFchunk::', msgBUFchunk.length, msgBUFchunk.toString('hex').match(/../g).join(' '));
+        msgBUFarr.push(msgBUFchunk);
+        let msgBUF = Buffer.concat(msgBUFarr);
+        let msgSTR = this.dataParser.incoming(msgBUF); // convert incoming buffer message to string
+
+        const delimiter_reg = new RegExp(this.subprotocolLib.delimiter);
+        if (!delimiter_reg.test(msgSTR)) { return; }
 
         let msg;
-        if (!/OPCODE 0x/.test(msgSTR)) {
+        if (/OPCODE 0x/.test(msgSTR)) {
+          this.opcodes(msgSTR, socket);
+        } else {
           msg = this.subprotocolLib.incoming(msgSTR); // convert the string message to format defined by the subprotocol
           this.subprotocolLib.process(msg, socket, this, this.socketStorage, this.eventEmitter); // process message internally
-        } else {
-          this.opcodes(msgSTR, socket);
         }
 
-        this.eventEmitter.emit('message', msg, msgSTR, msgBUF, socket); // stream the message
+        // stream the message
+        this.eventEmitter.emit('message', msg, msgSTR, msgBUF, socket);
+
+        // reset
+        msgBUFarr = [];
+        msgBUF = undefined;
+        msgSTR = '';
+        msg = null;
 
       } catch(err) {
         const socketID = !!socket && !!socket.extension ? socket.extension.id : '';
